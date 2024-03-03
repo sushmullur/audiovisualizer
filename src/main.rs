@@ -2,6 +2,7 @@ use native_dialog::{FileDialog, MessageDialog, MessageType};
 use std::fs::File;
 use std::io::BufReader;
 use rodio::{Decoder, OutputStream, source::Source};
+extern crate mp3_duration;
 
 fn main() {
     let path = FileDialog::new()
@@ -13,6 +14,7 @@ fn main() {
         Some(path) => path,
         None => return,
     };
+    let path_clone = path.clone();
 
     let _yes = MessageDialog::new()
         .set_type(MessageType::Info)
@@ -24,9 +26,13 @@ fn main() {
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
     let file = BufReader::new(File::open(path).unwrap());
     let source = Decoder::new(file).unwrap();
-    let _ = stream_handle.play_raw(source.convert_samples());
 
-    std::thread::sleep(std::time::Duration::from_secs(5));
+    let duration = mp3_duration::from_path(path_clone).unwrap();
+    println!("Duration: {:?}", duration);
+    
+
+    let _ = stream_handle.play_raw(source.convert_samples());
+    std::thread::sleep(std::time::Duration::from_secs(9));
 
 
 }
