@@ -3,7 +3,10 @@ use std::io::BufReader;
 use rodio::{Decoder, OutputStream, source::Source};
 
 pub fn find_duration(path: String) -> std::time::Duration {
-    mp3_duration::from_path(path).unwrap()
+    match mp3_duration::from_path(&path) {
+        Ok(duration) => duration,
+        Err(_) => std::time::Duration::new(0, 0),
+    }
 }
 
 pub fn play_audio(path: String, duration: std::time::Duration) {

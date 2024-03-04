@@ -1,4 +1,5 @@
 mod audio_operations;
+mod unit_tests;
 mod user_interactions;
 
 fn main() {
@@ -9,7 +10,7 @@ fn main() {
         user_interactions::alert_user("Error".to_string(), "No file selected".to_string());
         return;
     }
-    
+
     user_interactions::alert_user("File Loaded".to_string(), format!("You selected: {}", path));
 
     let duration = audio_operations::find_duration(path.clone());
