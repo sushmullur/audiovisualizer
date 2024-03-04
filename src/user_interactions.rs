@@ -14,11 +14,16 @@ pub fn select_file() -> String {
     return path.to_str().unwrap().to_string();
 }
 
-pub fn alert_user(title: String, message: String) {
+pub fn alert_user(title: String, message: String) -> bool {
+    if title == "".to_string() || message == "".to_string() {
+        return false;
+    }
     let _alert = native_dialog::MessageDialog::new()
         .set_type(native_dialog::MessageType::Info)
         .set_title(&title)
         .set_text(&message)
         .show_alert()
         .unwrap();
+
+    true
 }
