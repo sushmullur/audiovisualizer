@@ -10,6 +10,14 @@ mod tests {
     }
 
     #[test]
+    fn test_play_audio_false() {
+        let path = "".to_string();
+        let duration = std::time::Duration::new(0, 0);
+        let result = audio_operations::play_audio(path, duration);
+        assert_eq!(result, false);
+    }
+
+    #[test]
     fn test_alert_user_false() {
         let title = "".to_string();
         let message = "".to_string();

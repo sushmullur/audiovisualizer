@@ -9,9 +9,9 @@ pub fn find_duration(path: String) -> std::time::Duration {
     }
 }
 
-pub fn play_audio(path: String, duration: std::time::Duration) {
-    if duration.as_secs() == 0 {
-        return;
+pub fn play_audio(path: String, duration: std::time::Duration) -> bool {
+    if duration.as_secs() <= 1 {
+        return false;
     }
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
     let file = BufReader::new(File::open(path.clone()).unwrap());
@@ -19,4 +19,6 @@ pub fn play_audio(path: String, duration: std::time::Duration) {
     
     let _ = stream_handle.play_raw(source.convert_samples());
     std::thread::sleep(duration);
+
+    return true;
 }
